@@ -154,24 +154,20 @@ humhub\modules\tasks\Assets::register($this);
         <?php endif; ?>
     <?php endforeach; ?>
     <?php if (count($tasks) == 0 || count($tasks) == $completedTaskCount) : ?>
-        <em><?php echo Yii::t('TasksModule.views_task_show', 'No open tasks...'); ?></em>
+        <em><?php //echo Yii::t('TasksModule.views_task_show', 'No open tasks...'); ?></em>
     <?php endif; ?>
 </div>
 <br>
+    <?= Html::a(Yii::t('TasksModule.views_task_show', 'Back to open tasks'), $contentContainer->createUrl('show'), ['class' => 'btn btn-warning', 'style' => '    margin-right: 5px;']) ?>
 <a href="<?php echo $contentContainer->createUrl('edit'); ?>" class="btn btn-primary"
    data-target="#globalModal"><i
         class="fa fa-plus"></i> <?php echo Yii::t('TasksModule.views_task_show', 'Add Task'); ?></a>
 
-<?php if ($completedTaskCount > 50): ?>
-    <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-check']) . ' ' . $completedTaskCount . ' ' . Yii::t('TasksModule.views_task_show', 'completed tasks'), $contentContainer->createUrl('show-completed'), ['class' => 'show-completed-tasks-link']) ?>
-<?php else: ?>
-    <a data-toggle="collapse" id="completed-task-link" href="#completed-tasks" class="show-completed-tasks-link"
-       style="display: none;"><i
-            class="fa fa-check"></i>
-    </a>
-<?php endif; ?>
+<a data-toggle="collapse" id="completed-task-link" href="#completed-tasks" class="show-completed-tasks-link">
+    <?php echo Yii::t('TasksModule.views_task_show', 'Loading... Please wait'); ?>
+</a>
 
-<div class="collapse <?php if (Yii::$app->request->get('completed') != null) : ?>in<?php endif; ?>"
+<div class="collapse in"
      id="completed-tasks">
     <br>
     <br>

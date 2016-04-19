@@ -26,8 +26,12 @@ class TaskController extends ContentContainerController
     public function actionShow()
     {
 
-        $tasks = Task::find()->contentContainer($this->contentContainer)->readable()->all();
         $completedTaskCount = Task::find()->contentContainer($this->contentContainer)->readable()->where(['task.status' => 5])->count();
+        if ($completedTaskCount > 50) {
+            $tasks = Task::find()->contentContainer($this->contentContainer)->readable()->where(['task.status' => 1])->all();
+        } else {
+            $tasks = Task::find()->contentContainer($this->contentContainer)->readable()->all();
+        }
 
         return $this->render('show', [
             'tasks' => $tasks,
@@ -37,6 +41,19 @@ class TaskController extends ContentContainerController
         ]);
 
 
+    }
+    
+    public function actionShowCompleted()
+    {
+        $completedTaskCount = Task::find()->contentContainer($this->contentContainer)->readable()->where(['task.status' => 5])->count();
+        $tasks = Task::find()->contentContainer($this->contentContainer)->readable()->where(['task.status' => 5])->all();
+
+        return $this->render('show-completed', [
+            'tasks' => $tasks,
+            'completedTaskCount' => $completedTaskCount,
+            'contentContainer' => $this->contentContainer
+
+        ]);
     }
 
     public function actionEdit() {
